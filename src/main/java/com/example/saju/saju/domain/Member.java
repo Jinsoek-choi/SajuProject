@@ -21,6 +21,10 @@ public class Member {
     @Column(nullable = false)
     private String password; // 비밀번호 (암호화 저장)
 
+//    @Column(nullable = false)
+//    private String email;    // 이메일
+
     @Column(nullable = false)
-    private String email;    // 이메일
+    @Builder.Default
+    private String role = "USER";
 }

@@ -12,25 +12,35 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
     private final MemberService memberService;
 
+    // 로그인 페이지
+    @GetMapping("/login")
+    public String loginForm() {
+        return "login";  // ✅ 내가 만든 login.html 사용
+    }
+
+    // 회원가입 폼
     @GetMapping("/register")
-    public String registerForm(Model model) {
-        model.addAttribute("memberForm", new MemberForm());
+    public String showRegisterForm() {
         return "register";
     }
 
+    // 회원가입 처리
     @PostMapping("/register")
-    public String register(@ModelAttribute MemberForm form) {
-        memberService.register(form);
-        return "redirect:/login";
+    public String register(@RequestParam String username,
+                           @RequestParam String password,
+                           Model model) {
+        try {
+            memberService.register(username, password);
+            return "redirect:/login";  // ✅ 가입 후 로그인 페이지로 이동
+        } catch (Exception e) {
+            model.addAttribute("error", "회원가입 실패: " + e.getMessage());
+            return "register";
+        }
     }
 
-    @GetMapping("/login")
-    public String login() {
-        return "login"; // login.html
-    }
-
-    @GetMapping("/home")
+    // 메인 페이지 (로그인 후)
+    @GetMapping("/")
     public String home() {
-        return "home"; // 로그인 성공 시 이동
+        return "index";
     }
 }

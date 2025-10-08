@@ -2,7 +2,6 @@ package com.example.saju.saju.service;
 
 
 import com.example.saju.saju.domain.Member;
-import com.example.saju.saju.dto.MemberForm;
 import com.example.saju.saju.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,16 +13,20 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public Member register(MemberForm form) {
+    public Member register(String username, String rawPassword) {
+        // 중복 아이디 방지 (선택)
+        if (memberRepository.findByUsername(username).isPresent()) {
+            throw new IllegalArgumentException("이미 존재하는 아이디입니다.");
+        }
+
         Member member = Member.builder()
-                .username(form.getUsername())
-                .password(passwordEncoder.encode(form.getPassword()))
-                .email(form.getEmail())
+                .username(username)
+                .password(passwordEncoder.encode(rawPassword))
+                .role("USER")
                 .build();
+
         return memberRepository.save(member);
     }
 
-    public Member findByUsername(String username) {
-        return memberRepository.findByUsername(username).orElse(null);
-    }
+
 }

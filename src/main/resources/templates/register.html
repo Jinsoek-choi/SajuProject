@@ -1,17 +1,26 @@
 <!DOCTYPE html>
-<html xmlns:th = "http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>회원가입</title>
+    <style>
+        body { font-family: 'Malgun Gothic'; margin: 40px; }
+        form { display: flex; flex-direction: column; width: 250px; }
+        input { margin: 5px 0; padding: 8px; }
+        button { margin-top: 10px; }
+    </style>
 </head>
 <body>
 <h2>회원가입</h2>
-<form th:action = "@{/register}" method = "post" th:object = "${memberForm}">
-    <input type = "text" th:field = "*{username}" placeholder = "아이디"/>
-    <input type = "password" th:field = "*{password}" placeholder = "비밀번호"/>
-    <input type = "email" th:field = "*{email}" placeholder = "이메일"/>
-    <button type = "submit">가입하기</button>
+
+<form th:action="@{/register}" method="post">
+    <input type="text" name="username" placeholder="아이디" required>
+    <input type="password" name="password" placeholder="비밀번호" required>
+    <button type="submit">가입하기</button>
 </form>
 
+<p th:if="${error}" th:text="${error}" style="color:red;"></p>
+
+<a th:href="@{/login}">로그인 페이지로 돌아가기</a>
 </body>
 </html>

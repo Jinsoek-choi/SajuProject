@@ -1,16 +1,27 @@
 <!DOCTYPE html>
-<html xmlns:th = "http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>로그인</title>
+    <style>
+        body { font-family: 'Malgun Gothic'; margin: 40px; }
+        form { display: flex; flex-direction: column; width: 250px; }
+        input { margin: 5px 0; padding: 8px; }
+        button { margin-top: 10px; }
+        .error { color: red; margin-bottom: 10px; }
+    </style>
 </head>
 <body>
 <h2>로그인</h2>
-<form th:action = "@{/login}" method = "post">
-    <input type = "text" name = "username" placeholder = "아이디"/>
-    <input type = "password" name = "password" placeholder = "비밀번호"/>
-    <button type = "submit">로그인</button>
+
+<p th:if="${param.error}" class="error">아이디 또는 비밀번호가 올바르지 않습니다.</p>
+
+<form th:action="@{/login}" method="post">
+    <input type="text" name="username" placeholder="아이디" required>
+    <input type="password" name="password" placeholder="비밀번호" required>
+    <button type="submit">로그인</button>
 </form>
 
+<a th:href="@{/register}">회원가입 하기</a>
 </body>
 </html>
