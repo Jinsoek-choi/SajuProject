@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class MemberService {
@@ -26,6 +28,17 @@ public class MemberService {
                 .build();
 
         return memberRepository.save(member);
+    }
+
+    // 로그인 검증 추가
+    public boolean  login(String username, String rawPassword) {
+        Optional<Member> opt = memberRepository.findByUsername(username);
+        if (opt.isEmpty()) return false; // 아이디 없음
+
+        Member member = opt.get();
+        // 비밀번호 비교 (암호화된 비번과 평문 비교)
+        return passwordEncoder.matches(rawPassword, member.getPassword());
+
     }
 
 

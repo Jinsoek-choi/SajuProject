@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>사주 결과</title>
+  <style>
+    body {
+      font-family: "Malgun Gothic", sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #fafafa;
+      margin: 0;
+    }
+
+    .box {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      text-align: center;
+      width: 400px;
+    }
+
+    h2 { margin-bottom: 20px; }
+    a { text-decoration: none; color: #20B2AA; }
+  </style>
+</head>
+<body>
+<div class="box">
+  <h2>사주 결과</h2>
+  <p th:text="'이름: ' + ${name}"></p>
+  <p th:text="'성별: ' + ${gender}"></p>
+  <p th:text="'출생일: ' + ${birthDate}"></p>
+  <p th:text="'출생지: ' + ${birthplace}"></p>
+  <p th:text="'질문: ' + ${question}"></p>
+  <hr>
+  <p th:text="${message}" style="color:#555;"></p>
+  <a th:href="@{/}">다시 입력하기</a>
+</div>
+</body>
+</html>

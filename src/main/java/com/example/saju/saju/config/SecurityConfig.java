@@ -16,7 +16,8 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable()) // ⚠️ 테스트용: CSRF 비활성화 (나중에 켜도 됨)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/register", "/css/**", "/js/**", "/images/**").permitAll() // 회원가입, 정적 리소스 접근 허용
+                        .requestMatchers("/","/saju", "/register", "/css/**",
+                                "/js/**", "/images/**").permitAll() // 회원가입, 정적 리소스 접근 허용
                         .anyRequest().authenticated() // 나머지는 로그인 필요
                 )
                 .formLogin(login -> login
@@ -28,7 +29,7 @@ public class SecurityConfig {
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login")        // 로그아웃 시 로그인 페이지로
+                        .logoutSuccessUrl("/")
                         .permitAll()
                 );
 
@@ -37,6 +38,7 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
+
         return new BCryptPasswordEncoder();
     }
 }

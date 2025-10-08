@@ -18,6 +18,19 @@ public class MemberController {
         return "login";  // ✅ 내가 만든 login.html 사용
     }
 
+    // 로그인 처리
+    @PostMapping("/login")
+    public String login(@RequestParam String username,
+                        @RequestParam String password,
+                        Model model) {
+        if(memberService.login(username, password)) {
+            return "redirect:/"; // 로그인 성공 -> 메인화면 이동
+        } else {
+            model.addAttribute("error", "아이디 또는 비밀번호가 올바르지 않습니다.");
+            return "login";
+        }
+    }
+
     // 회원가입 폼
     @GetMapping("/register")
     public String showRegisterForm() {
@@ -38,9 +51,9 @@ public class MemberController {
         }
     }
 
-    // 메인 페이지 (로그인 후)
-    @GetMapping("/")
-    public String home() {
-        return "index";
-    }
+//    // 메인 페이지 (로그인 후)
+//    @GetMapping("/")
+//    public String home() {
+//        return "index";
+//    }
 }

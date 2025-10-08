@@ -1,5 +1,7 @@
 package com.example.saju.saju.controller;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +11,10 @@ public class SajuController {
 
     // 메인 입력 폼
     @GetMapping("/")
-    public String showForm() {
+    public String showForm(@AuthenticationPrincipal User user, Model model) {
+        if (user != null) {
+            model.addAttribute("username", user.getUsername());
+        }
         return "saju-form";  // templates/saju-form.html
     }
 
@@ -18,6 +23,7 @@ public class SajuController {
     public String processSaju(@RequestParam String name,
                               @RequestParam String gender,
                               @RequestParam String birthDate,
+                              @RequestParam String birthTime,
                               @RequestParam String birthplace,
                               @RequestParam String question,
                               Model model) {
@@ -27,8 +33,10 @@ public class SajuController {
         model.addAttribute("name", name);
         model.addAttribute("gender", gender);
         model.addAttribute("birthDate", birthDate);
+        model.addAttribute("birthTime", birthTime);
         model.addAttribute("birthplace", birthplace);
         model.addAttribute("question", question);
+
         return "saju-result";  // 결과 페이지로 이동
     }
 }
