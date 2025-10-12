@@ -51,9 +51,4 @@ public class MemberController {
         }
     }
 
-//    // 메인 페이지 (로그인 후)
-//    @GetMapping("/")
-//    public String home() {
-//        return "index";
-//    }
 }

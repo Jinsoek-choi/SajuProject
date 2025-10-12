@@ -28,16 +28,19 @@
   </style>
 </head>
 <body>
-<div class="box">
-  <h2>사주 결과</h2>
-  <p th:text="'이름: ' + ${name}"></p>
-  <p th:text="'성별: ' + ${gender}"></p>
-  <p th:text="'출생일: ' + ${birthDate}"></p>
-  <p th:text="'출생지: ' + ${birthplace}"></p>
-  <p th:text="'질문: ' + ${question}"></p>
+<div class="result-box">
+  <h2 th:text="'🔮 ' + ${name} + '님의 사주 결과'">사주 결과</h2>
+
+  <p><strong>성별:</strong> <span th:text="${gender}"></span></p>
+  <p><strong>생년월일:</strong> <span th:text="${birthDate}"></span></p>
+  <p><strong>출생시간:</strong> <span th:text="${birthTime}"></span></p>
+  <p><strong>출생지:</strong> <span th:text="${birthPlace}"></span></p>
+  <p><strong>질문:</strong> <span th:text="${question}"></span></p>
   <hr>
-  <p th:text="${message}" style="color:#555;"></p>
-  <a th:href="@{/}">다시 입력하기</a>
+  <h3>🔍 사주 풀이</h3>
+  <pre th:text="${message}">사주 결과 표시</pre>
+
+  <button onclick="location.href='/'">메인으로 돌아가기</button>
 </div>
 </body>
 </html>

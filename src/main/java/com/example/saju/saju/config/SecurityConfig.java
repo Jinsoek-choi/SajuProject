@@ -16,9 +16,9 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable()) // ⚠️ 테스트용: CSRF 비활성화 (나중에 켜도 됨)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/","/saju", "/register", "/css/**",
+                        .requestMatchers("/", "/saju", "/register", "/css/**",
                                 "/js/**", "/images/**").permitAll() // 회원가입, 정적 리소스 접근 허용
-                        .anyRequest().authenticated() // 나머지는 로그인 필요
+                        .anyRequest().permitAll() // 나머지는 로그인 필요
                 )
                 .formLogin(login -> login
                         .loginPage("/login")               // ✅ 커스텀 로그인 페이지 지정
