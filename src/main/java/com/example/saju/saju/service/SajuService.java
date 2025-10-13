@@ -14,7 +14,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class SajuService {
 
-    @Value("${openai.api-key}")
+    @Value("${OPENAI_API_KEY}")
     private String apiKey;
 
     @Value("${openai.model:gpt-5}")
@@ -53,13 +53,16 @@ public class SajuService {
                 """.formatted(name, gender, birthDate, birthTime, birthPlace, question);
 
         // 🔧 요청 JSON 구성
+        String apiUrl = "https://api.openai.com/v1/chat/completions";
+
         Map<String, Object> payload = Map.of(
                 "model", model,
                 "messages", List.of(
-                        Map.of("role", "system", "content", "당신은 숙련된 사주 감정가이며, 친절하고 신뢰감 있게 답변해야 합니다."),
-                        Map.of("role", "user", "content", prompt)
+                        Map.of("role", "system", "content", "당신은 사주 전문가입니다."),
+                        Map.of("role", "user", "content", name + " " + birthDate + " " + birthTime + " " + birthPlace + " " + gender)
                 )
         );
+
 
         Map<String, Object> response;
         try {
@@ -67,6 +70,10 @@ public class SajuService {
             response = webClient.post()
                     .bodyValue(payload)
                     .retrieve()
+                    .onStatus(HttpStatusCode::isError,
+                            clientResponse -> clientResponse.bodyToMono(String.class)
+                                    .map(body -> new RuntimeException("❌ OpenAI API Error: " + body))
+                    )
                     .bodyToMono(Map.class)
                     .block();
 

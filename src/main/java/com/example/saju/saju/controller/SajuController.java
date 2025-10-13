@@ -16,15 +16,6 @@ public class SajuController {
 
 
     // 메인 입력 폼
-    @GetMapping("/")
-    public String showForm(@AuthenticationPrincipal User user, Model model) {
-        if (user != null) {
-            model.addAttribute("username", user.getUsername());
-        }
-        return "saju-form";  // templates/saju-form.html
-    }
-
-    // 폼 제출 처리
     @PostMapping("/saju")
     public String processSaju(@RequestParam String name,
                               @RequestParam String gender,
@@ -33,10 +24,16 @@ public class SajuController {
                               @RequestParam String birthPlace,
                               @RequestParam String question,
                               Model model) {
+
+        // 🧠 OpenAI API 호출 결과
         String result = sajuService.getSajuFortune(name, gender, birthDate, birthTime, birthPlace, question);
-        // TODO: 나중에 GPT API 호출 로직 추가 가능
-        String message = name + "님의 사주 요청이 접수되었습니다.";
+
+        // 화면에 표시할 메시지 (선택사항)
+        String message = name + "님의 사주 결과가 도착했습니다.";
+
+        // 📦 모델에 결과 데이터 담기
         model.addAttribute("message", message);
+        model.addAttribute("result", result);
         model.addAttribute("name", name);
         model.addAttribute("gender", gender);
         model.addAttribute("birthDate", birthDate);
@@ -44,6 +41,6 @@ public class SajuController {
         model.addAttribute("birthPlace", birthPlace);
         model.addAttribute("question", question);
 
-        return "saju-result";  // 결과 페이지로 이동
+        return "saju-result";
     }
 }
